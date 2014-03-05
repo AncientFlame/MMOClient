@@ -3,7 +3,6 @@ package mygame;
 import com.jme3.app.SimpleApplication;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
-import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Plane;
@@ -15,14 +14,18 @@ import com.jme3.network.Message;
 import com.jme3.network.MessageListener;
 import com.jme3.network.Network;
 import com.jme3.network.serializing.Serializer;
+import com.jme3.niftygui.NiftyJmeDisplay;
+import com.jme3.post.FilterPostProcessor;
+import com.jme3.post.ssao.SSAOFilter;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.queue.RenderQueue.ShadowMode;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Quad;
+import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.system.JmeContext;
 import com.jme3.water.SimpleWaterProcessor;
+import de.lessvoid.nifty.Nifty;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,28 +35,33 @@ import java.util.logging.Logger;
  * @author normenhansen
  */
 public class ClientMain extends SimpleApplication {
+    NiftyJmeDisplay niftyDisplay;
     private Client myClient;
     private static ClientMain app;
     private Spatial sceneModel;
-    
-    
-    
+    DirectionalLight sun;
+    StartGUIController startController;
+   
     public static void main(String[] args) {
         app = new ClientMain();
+        
         app.start(JmeContext.Type.Display); // standard display type
+        
     }
     
 
 
     @Override
     public void simpleInitApp() {
-        
+        startController = new StartGUIController(stateManager, app, guiViewPort);
+        startController.setNifty(niftyDisplay);
+        initStartGUI();
         flyCam.setEnabled(true);
         flyCam.setMoveSpeed(500.0f);
             /** A white, directional light source */ 
-        DirectionalLight sun = new DirectionalLight();
+        sun = new DirectionalLight();
         sun.setDirection((new Vector3f(-0.5f, -0.5f, -0.5f)).normalizeLocal());
-        sun.setColor(ColorRGBA.White);
+        sun.setColor(ColorRGBA.Orange);
         rootNode.addLight(sun); 
         
         
@@ -117,8 +125,24 @@ public class ClientMain extends SimpleApplication {
         AmbientLight ambient = new AmbientLight();
         ambient.setColor(ColorRGBA.White);
         rootNode.addLight(ambient); 
+        initWater();
+        initShadow();
         
-         // we create a water processor
+    }
+    private void initShadow(){
+        FilterPostProcessor fpp = new FilterPostProcessor(assetManager);
+        viewPort.addProcessor(fpp);
+        SSAOFilter ssaoFilter = new SSAOFilter(12.94f, 43.93f, 0.33f, 0.60f);
+        fpp.addFilter(ssaoFilter); 
+        /* this shadow needs a directional light */
+        DirectionalLightShadowRenderer dlsr = new DirectionalLightShadowRenderer(assetManager, 1024, 2);
+        dlsr.setLight(sun);
+        viewPort.addProcessor(dlsr); 
+ 
+    }
+    
+    private void initWater(){
+    // we create a water processor
         SimpleWaterProcessor waterProcessor = new SimpleWaterProcessor(assetManager);
         waterProcessor.setReflectionScene(sceneModel);
 
@@ -128,7 +152,7 @@ public class ClientMain extends SimpleApplication {
         viewPort.addProcessor(waterProcessor);
 
         // we set wave properties
-        waterProcessor.setWaterDepth(40);         // transparency of water
+        waterProcessor.setWaterDepth(0);         // transparency of water
         waterProcessor.setDistortionScale(0.05f); // strength of waves
         waterProcessor.setWaveSpeed(0.05f);       // speed of waves
 
@@ -144,6 +168,17 @@ public class ClientMain extends SimpleApplication {
         water.setMaterial(waterProcessor.getMaterial());
         rootNode.attachChild(water);
     }
-    
-    
+    private void initStartGUI(){
+        niftyDisplay = new NiftyJmeDisplay(
+        assetManager, inputManager, audioRenderer, guiViewPort);
+        /** Create a new NiftyGUI object */
+        Nifty nifty = niftyDisplay.getNifty();
+        /** Read your XML and initialize your custom ScreenController */
+        
+        nifty.fromXml("Interface/GameStart.xml", "start", startController);
+        // attach the Nifty display to the gui view port as a processor
+        guiViewPort.addProcessor(niftyDisplay);
+        // disable the fly cam
+        flyCam.setDragToRotate(true);
+    }
 }
