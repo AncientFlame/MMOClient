@@ -21,12 +21,13 @@ import de.lessvoid.nifty.screen.ScreenController;
 public class StartGUIController extends AbstractAppState implements ScreenController{
     private NiftyJmeDisplay nifty;
     private ViewPort viewPort;
-    private Screen screen;
+    //private Screen screen;
     private SimpleApplication app;
 
     StartGUIController(AppStateManager stateManager, SimpleApplication app, ViewPort port) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         super.initialize(stateManager, app);
+        this.app=(SimpleApplication)app;
         viewPort = port;
         
     }    
