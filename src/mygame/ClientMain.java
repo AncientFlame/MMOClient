@@ -2,6 +2,7 @@ package mygame;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.light.AmbientLight;
+import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
@@ -49,7 +50,11 @@ public class ClientMain extends SimpleApplication {
         
         flyCam.setEnabled(true);
         flyCam.setMoveSpeed(500.0f);
-        
+            /** A white, directional light source */ 
+        DirectionalLight sun = new DirectionalLight();
+        sun.setDirection((new Vector3f(-0.5f, -0.5f, -0.5f)).normalizeLocal());
+        sun.setColor(ColorRGBA.White);
+        rootNode.addLight(sun); 
         
         
         Serializer.registerClass(message.class);
@@ -105,7 +110,7 @@ public class ClientMain extends SimpleApplication {
     
     public void initScene(){
          sceneModel = assetManager.loadModel("Scenes/Island.j3o");
-         cam.setLocation(new Vector3f(0.0f,30.0f, 10.0f));
+         cam.setLocation(new Vector3f(0.0f,120.0f, 10.0f));
          rootNode.attachChild(sceneModel);
             /** A white ambient light source. */
          
@@ -118,7 +123,7 @@ public class ClientMain extends SimpleApplication {
         waterProcessor.setReflectionScene(sceneModel);
 
         // we set the water plane
-        Vector3f waterLocation=new Vector3f(0,-6,0);
+        Vector3f waterLocation=new Vector3f(0,0,0);
         waterProcessor.setPlane(new Plane(Vector3f.UNIT_Y, waterLocation.dot(Vector3f.UNIT_Y)));
         viewPort.addProcessor(waterProcessor);
 
@@ -134,7 +139,7 @@ public class ClientMain extends SimpleApplication {
         // we create the water geometry from the quad
         Geometry water=new Geometry("water", quad);
         water.setLocalRotation(new Quaternion().fromAngleAxis(-FastMath.HALF_PI, Vector3f.UNIT_X));
-        water.setLocalTranslation(-200, 20, 250);
+        water.setLocalTranslation(-250, 20, 250);
         water.setShadowMode(ShadowMode.Receive);
         water.setMaterial(waterProcessor.getMaterial());
         rootNode.attachChild(water);
