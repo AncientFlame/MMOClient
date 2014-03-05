@@ -44,9 +44,7 @@ public class ClientMain extends SimpleApplication {
    
     public static void main(String[] args) {
         app = new ClientMain();
-        
         app.start(JmeContext.Type.Display); // standard display type
-        
     }
     
 
@@ -54,8 +52,9 @@ public class ClientMain extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         startController = new StartGUIController(stateManager, app, guiViewPort);
-        startController.setNifty(niftyDisplay);
+ 
         initStartGUI();
+        startController.setNifty(niftyDisplay);
         flyCam.setEnabled(true);
         flyCam.setMoveSpeed(500.0f);
             /** A white, directional light source */ 
