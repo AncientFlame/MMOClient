@@ -23,22 +23,21 @@ public class StartGUIController extends AbstractAppState implements ScreenContro
     private ViewPort viewPort;
     //private Screen screen;
     private SimpleApplication app;
+    
 
     StartGUIController(AppStateManager stateManager, SimpleApplication app, ViewPort port) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         super.initialize(stateManager, app);
         this.app=(SimpleApplication)app;
         viewPort = port;
-        
     }    
  
     
     public void onStartScreen() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     public void onEndScreen() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
     
     @Override
@@ -57,14 +56,15 @@ public class StartGUIController extends AbstractAppState implements ScreenContro
     public void startGame(int x, int y){
         System.out.println("funziona");
         viewPort.removeProcessor(nifty);
+        
     }
 
     public void bind(Nifty nifty, Screen screen) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     public void setNifty(NiftyJmeDisplay niftyDisplay) {
          nifty = niftyDisplay;
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 }
