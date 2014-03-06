@@ -17,6 +17,7 @@ import com.jme3.network.Network;
 import com.jme3.network.serializing.Serializer;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.post.FilterPostProcessor;
+import com.jme3.post.filters.FogFilter;
 import com.jme3.post.filters.LightScatteringFilter;
 import com.jme3.post.ssao.SSAOFilter;
 import com.jme3.renderer.RenderManager;
@@ -75,6 +76,15 @@ public class ClientMain extends SimpleApplication {
         flyCam.setEnabled(true);
         flyCam.setMoveSpeed(500.0f);
         
+         /** Add fog to a scene */
+            FilterPostProcessor fpp=new FilterPostProcessor(assetManager);
+            FogFilter fog=new FogFilter();
+            fog.setFogColor(new ColorRGBA(0.9f, 0.9f, 0.9f, 1.0f));
+            fog.setFogDistance(1000);
+            fog.setFogDensity(2.0f);
+            fpp.addFilter(fog);
+            viewPort.addProcessor(fpp);
+
         
         
         
