@@ -64,12 +64,18 @@ public class ClientMain extends SimpleApplication {
     @Override
     public void simpleUpdate(float tpf) 
     {
-       scena.LightMovement();
+      if(startController.menu==false)
+      {
+      /*  if(!scena.LightMovement())
+           scena.sole.updateSunPosition(scena.sunpos);*/
+          scena.LightMovement();
+      }
     }
 
     @Override
-    public void simpleRender(RenderManager rm) {
-        
+    public void simpleRender(RenderManager rm) 
+    {
+        scena.sole.updateSunPosition(scena.sunpos);
     }
     public class ClientListener implements MessageListener<Client> {
         public void messageReceived(Client source, Message m) {

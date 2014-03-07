@@ -19,10 +19,11 @@ public class Scene
 {
    private Spatial sceneModel;
    private DirectionalLight sun;  
-   private Vector3f sunpos;
+   public Vector3f sunpos;
    private AssetManager asset;
    private Node rNode;
    private ViewPort port;
+   sun sole;
  //--------------------variabili multithreading
     ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(3);
     private Future f[]=new Future[3];
@@ -39,6 +40,8 @@ public class Scene
       f[2]=executor.submit(initScene); //thread terreno
       while(!f[0].isDone() || !f[1].isDone() || !f[2].isDone()) { } //attende la fine di tutti i thread
       f[0]=null; f[1]=null; f[2]=null;
+      sole=new sun(a,new Vector3f(0,0,1000), 70);
+      rNode.attachChild(sole.getSun());
    }
     
    private Callable initFog=new Callable()
@@ -49,7 +52,7 @@ public class Scene
           FogFilter fog=new FogFilter();
           fog.setFogColor(new ColorRGBA(0.9f, 0.9f, 0.9f, 1.0f));
           fog.setFogDistance(1000);
-          fog.setFogDensity(2.0f);
+          fog.setFogDensity(1.5f); //prima 2.0
           fpp.addFilter(fog);
           port.addProcessor(fpp);
           return true;   
@@ -78,19 +81,25 @@ public class Scene
       }
    };
    
-   public void LightMovement()
+   public boolean LightMovement()
    {
       try
       {
         if(f[0]==null) 
         {
           f[0]=executor.submit(LightMovement_thread); //fa partire il thread
+          return true;
         }
         else {
                 if(f[0].isDone() || f[0].isCancelled()) //se il thread è finito o è stato cancellato
-                  f[0]=null;   //il future viene rimesso a null per far ripartire il thread
+                { 
+                    f[0]=null;   //il future viene rimesso a null per far ripartire il thread
+                    return false;
+                }
+                return false;
              }
       } catch(Exception e) {}
+       return false;
    }
    
    private Callable LightMovement_thread=new Callable()

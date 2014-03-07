@@ -23,6 +23,7 @@ public class StartGUIController extends AbstractAppState implements ScreenContro
     private ViewPort viewPort;
     //private Screen screen;
     private SimpleApplication app;
+    boolean menu=true;
     
 
     StartGUIController(AppStateManager stateManager, SimpleApplication app, ViewPort port) {
@@ -54,9 +55,8 @@ public class StartGUIController extends AbstractAppState implements ScreenContro
         app.stop();
     }
     public void startGame(int x, int y){
-        System.out.println("funziona");
-        viewPort.removeProcessor(nifty);
-        
+        this.menu=false;
+        viewPort.removeProcessor(nifty);      
     }
 
     public void bind(Nifty nifty, Screen screen) {
