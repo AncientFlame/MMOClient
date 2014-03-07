@@ -7,7 +7,7 @@
 
     <screen id="start" controller="mygame.StartGUIController">
         <layer id="layer" backgroundColor="#003f" childLayout="center">
-            <panel id="panel" backgroundColor="#FF3300" height="50%" width="50%" align="center" valign="center" childLayout="center" >  
+            <panel id="panel" style="nifty-panel-red"  backgroundColor="#FF3300" height="50%" width="50%" align="center" valign="center" childLayout="center" >  
                 <panel id="panel_bottom_left"  height="50%" width="50%" align="right" valign="center" childLayout="center" >  
                   <panel id="panel_start" height="50%" width="50%" align="center" valign="center" childLayout="center" >  
                     <control name="button" label="Start" id="StartButton" align="right" valign="center" visibleToMouse="true"> 
