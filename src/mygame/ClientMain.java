@@ -1,6 +1,9 @@
 package mygame;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.input.KeyInput;
+import com.jme3.input.controls.ActionListener;
+import com.jme3.input.controls.KeyTrigger;
 import com.jme3.network.Client;
 import com.jme3.network.Message;
 import com.jme3.network.MessageListener;
@@ -16,11 +19,15 @@ import java.util.logging.Logger;
 
 
 public class ClientMain extends SimpleApplication {
-    NiftyJmeDisplay niftyDisplay;
+    private NiftyJmeDisplay niftyDisplay;
+    private NiftyJmeDisplay inventoryDisplay;
     private Client myClient;
     private static ClientMain app;
-    StartGUIController startController;
+    private StartGUIController startController;
+    private InventoryController inventoryController;
     private mygame.Scene scena;
+    private boolean pause;
+    
     
     public static void main(String[] args) 
     {    
@@ -34,12 +41,15 @@ public class ClientMain extends SimpleApplication {
     }
     
     @Override
-    public void simpleInitApp() 
-    {
-        startController = new StartGUIController(stateManager, app, guiViewPort);
+    public void simpleInitApp()          
+    {   
+        inventoryController = new InventoryController(stateManager, app, guiViewPort);
+        pause = false;
+        initKeys();
+        //startController = new StartGUIController(stateManager, app, guiViewPort);
        // sunpos = new Vector3f(0,0,1000);
-        initStartGUI();
-        startController.setNifty(niftyDisplay);
+        //initStartGUI();
+        //startController.setNifty(niftyDisplay);
         
        // sole = new sun(assetManager, new Vector3f(0,0,1000), 70);
        // rootNode.attachChild(sole.getSun());
@@ -64,12 +74,12 @@ public class ClientMain extends SimpleApplication {
     @Override
     public void simpleUpdate(float tpf) 
     {
-      if(startController.menu==false)
+      /*if(startController.menu==false)
       {
-      /*  if(!scena.LightMovement())
-           scena.sole.updateSunPosition(scena.sunpos);*/
+       if(!scena.LightMovement())
+           scena.sole.updateSunPosition(scena.sunpos);
           scena.LightMovement();
-      }
+      }*/
     }
 
     @Override
@@ -128,13 +138,46 @@ public class ClientMain extends SimpleApplication {
         rootNode.attachChild(water);
     }*/
     
+      private void initKeys()
+    {
       
+      inputManager.addMapping("inventory", new KeyTrigger(KeyInput.KEY_I));
+      inputManager.addMapping("pause",new KeyTrigger(KeyInput.KEY_P));
+      
+      
+      inputManager.addListener(camera_keys,"inventory","pause");
+    }
+    private ActionListener camera_keys=new ActionListener()
+    {
+        public void onAction(String name, boolean isPressed, float tpf) 
+        {
+             if(name.equals("inventory") && !isPressed)
+                 
+                 showInventoryGui();
+                 inventoryController.setNifty(inventoryDisplay);
+                 
+             if(name.equals("pause") && !isPressed)
+             {
+                pause=!pause;
+             }
+             
+        }
+    };
+    
     private void initStartGUI(){
         niftyDisplay = new NiftyJmeDisplay(
         assetManager, inputManager, audioRenderer, guiViewPort);
         Nifty nifty = niftyDisplay.getNifty();
         nifty.fromXml("Interface/GameStart.xml", "start", startController);
         guiViewPort.addProcessor(niftyDisplay);
+        flyCam.setDragToRotate(true);
+    }
+    private void showInventoryGui(){
+        inventoryDisplay = new NiftyJmeDisplay(
+        assetManager, inputManager, audioRenderer, guiViewPort);
+        Nifty nifty = inventoryDisplay.getNifty();
+        nifty.fromXml("Interface/Inventory.xml", "start", inventoryController);
+        guiViewPort.addProcessor(inventoryDisplay);
         flyCam.setDragToRotate(true);
     }
     

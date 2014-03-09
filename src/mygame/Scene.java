@@ -48,13 +48,14 @@ public class Scene
    {
       public Object call()
       {
-          FilterPostProcessor fpp=new FilterPostProcessor(asset);
+         /* FilterPostProcessor fpp=new FilterPostProcessor(asset);
           FogFilter fog=new FogFilter();
           fog.setFogColor(new ColorRGBA(0.9f, 0.9f, 0.9f, 1.0f));
           fog.setFogDistance(1000);
           fog.setFogDensity(1.5f); //prima 2.0
           fpp.addFilter(fog);
-          port.addProcessor(fpp);
+          port.addProcessor(fpp);*/
+          
           return true;   
       }
    };

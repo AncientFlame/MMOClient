@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<nifty xmlns="http://nifty-gui.sourceforge.net/nifty-1.3.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-gui.sourceforge.net/nifty-1.3.xsd">
+    <useStyles filename="nifty-default-styles.xml"/>
+    <useControls filename="nifty-default-controls.xml"/>
+
+    
+<screen controller="mygame.InventoryController" id="start">
+        <layer childLayout="absolute" id="windows">
+            
+        <control childLayout="vertical" drop="true" height="450px" id="Inventory" name="window" title="Inventory" width="572px" x="134" y="84">
+                
+                    <control buttonHeight="50px" buttonWidth="50%" id="edit_tabs" name="nifty-tabs">
+                        <control caption="Items" id="Items" name="nifty-tab" visibleToMouse="true"/>
+                        <control caption="Weapon" id="Weapon" name="nifty-tab" visibleToMouse="true"/>
+                    </control>
+                
+            <panel childLayout="absolute" height="418px" id="panel4" style="nifty-panel-simple" width="554px">
+          <panel childLayout="absolute" height="236px" id="panel7" style="nifty-panel-simple" width="496px" x="20" y="160">
+            <panel childLayout="absolute" height="46px" id="slot2" style="nifty-panel-simple" width="48px" x="70" y="14"/>
+            <panel childLayout="absolute" height="46px" id="slot3" style="nifty-panel-simple" width="48px" x="130" y="14"/>
+            <panel childLayout="absolute" height="46px" id="slot4" style="nifty-panel-simple" width="48px" x="190" y="14"/>
+            <panel childLayout="absolute" height="46px" id="slot1" style="nifty-panel-simple" width="48px" x="10" y="14"/>
+            <panel childLayout="absolute" height="46" id="slot5" style="nifty-panel-simple" width="48" x="250" y="14"/>
+            <panel childLayout="absolute" height="46" id="slot6" style="nifty-panel-simple" width="48" x="310" y="14"/>
+            <panel backgroundImage="panel/nifty-panel-simple.png" childLayout="absolute" height="46" id="slot7" style="nifty-panel-simple" width="48" x="370" y="14"/>
+            <panel childLayout="absolute" height="46" id="slot8" style="nifty-panel-simple" width="48" x="430" y="14"/>
+          </panel>
+          <image filename="Interface/No Image.jpg" height="135px" id="image4" width="135px" x="20" y="10"/>
+        </panel>
+      </control>
+    </layer>
+    </screen>
+  <screen id="screen1"/>
+</nifty>
