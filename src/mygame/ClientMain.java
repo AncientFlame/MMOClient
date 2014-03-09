@@ -42,14 +42,16 @@ public class ClientMain extends SimpleApplication {
     
     @Override
     public void simpleInitApp()          
-    {   
-        inventoryController = new InventoryController(stateManager, app, guiViewPort);
-        pause = false;
+    {  
+        pause = false;  
         initKeys();
-        //startController = new StartGUIController(stateManager, app, guiViewPort);
-       // sunpos = new Vector3f(0,0,1000);
-        //initStartGUI();
-        //startController.setNifty(niftyDisplay);
+        
+        inventoryController = new InventoryController(stateManager, app, guiViewPort);
+        startController = new StartGUIController(stateManager, app, guiViewPort);
+        
+        //sunpos = new Vector3f(0,0,1000);
+        initStartGUI();
+        startController.setNifty(niftyDisplay);
         
        // sole = new sun(assetManager, new Vector3f(0,0,1000), 70);
        // rootNode.attachChild(sole.getSun());
@@ -152,10 +154,12 @@ public class ClientMain extends SimpleApplication {
         public void onAction(String name, boolean isPressed, float tpf) 
         {
              if(name.equals("inventory") && !isPressed)
-                 
-                 showInventoryGui();
-                 inventoryController.setNifty(inventoryDisplay);
-                 
+                 if(!guiViewPort.getProcessors().contains(inventoryDisplay)){
+                    showInventoryGui();
+                    inventoryController.setNifty(inventoryDisplay);
+                 }else{
+                     guiViewPort.removeProcessor(inventoryDisplay);
+                 }
              if(name.equals("pause") && !isPressed)
              {
                 pause=!pause;

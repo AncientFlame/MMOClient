@@ -14,10 +14,12 @@
             
         <panel align="center" backgroundColor="#FF3300" childLayout="absolute" height="274px" id="panel" style="nifty-panel-red" valign="center" width="402px" x="201" y="150">       
         <control childLayout="center" id="button1" label="Start" name="button" x="133" y="58">
+            <interact onClick="startGame()"/>
         </control>
         <control childLayout="center" id="button2" label="Option" name="button" x="133" y="105">
         </control>
         <control childLayout="center" id="button3" label="Quit" name="button" x="134" y="151">
+            <interact onClick="quitGame()"/>
         </control>
         </panel>
       
